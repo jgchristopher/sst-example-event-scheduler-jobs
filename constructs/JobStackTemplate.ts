@@ -24,7 +24,7 @@ export function generateJobStack(
 
     const producerFunction = new Function(
       stack,
-      `${jobProps.jobName}Function`,
+      `${jobProps.jobName}ProducerFunction`,
       {
         handler: jobProps.jobProducerHandler,
         bind: [queue],
@@ -49,10 +49,10 @@ export function generateJobStack(
     schedulerRole.attachInlinePolicy(invokeLambdaPolicy);
 
     generateSchedule(stack, `${PREFIX}-EventBridgeSchedule`, {
-      scheduleName: `${PREFIX}-EventBridgeSchedule`, // schedulerProps.scheduleName, // `${PREFIX}-EventBridgeSchedule`,
+      scheduleName: `${PREFIX}-EventBridgeSchedule`,
       scheduleGroupName: SCHEDULER_GROUP_NAME,
-      scheduleDescription: schedulerProps.scheduleDescription, // "Runs a lambda every weekday at 6 AM EST",
-      scheduleCronExpression: schedulerProps.scheduleCronExpression, // "cron(0 6 ? * MON-FRI *)",
+      scheduleDescription: schedulerProps.scheduleDescription,
+      scheduleCronExpression: schedulerProps.scheduleCronExpression,
       scheduleTargetFunctionArn: producerFunction.functionArn,
       scheduleRoleArn: schedulerRole.roleArn,
     });

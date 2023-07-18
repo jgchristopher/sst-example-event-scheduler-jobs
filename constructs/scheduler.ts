@@ -18,16 +18,16 @@ export function generateSchedule(
   return new cdk.CfnResource(stack, id, {
     type: "AWS::Scheduler::Schedule",
     properties: {
-      GroupName: props.scheduleGroupName, //scheduleGroup.ref,
-      Name: props.scheduleName, //"myTestEventBridgeScheduler",
+      GroupName: props.scheduleGroupName,
+      Name: props.scheduleName,
       State: "DISABLED",
-      Description: props.scheduleDescription, // "Runs a lambda every weekday at 6 AM EST",
+      Description: props.scheduleDescription,
       FlexibleTimeWindow: { Mode: "OFF" },
-      ScheduleExpression: props.scheduleCronExpression, // "cron(0 6 ? * MON-FRI *)",
+      ScheduleExpression: props.scheduleCronExpression,
       ScheduleExpressionTimezone: "America/New_York",
       Target: {
-        Arn: props.scheduleTargetFunctionArn, // producerFunction.functionArn,
-        RoleArn: props.scheduleRoleArn, // schedulerRole.roleArn,
+        Arn: props.scheduleTargetFunctionArn,
+        RoleArn: props.scheduleRoleArn,
       },
     },
   });
