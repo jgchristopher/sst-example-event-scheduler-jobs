@@ -5,16 +5,17 @@ import { Queue } from "sst/node/queue";
 const sqs = new AWS.SQS();
 
 export async function producer() {
-  const queueUrl = Queue.job1Queue.queueUrl;
-
+  const queueUrl = Queue.jobQueue.queueUrl;
+  // Send a message to queue
   await sqs
     .sendMessage({
+      // Get the queue url from the environment variable
       QueueUrl: queueUrl,
       MessageBody: JSON.stringify({ ordered: true }),
     })
     .promise();
 
-  console.info("Message queued!");
+  console.log("Message queued!");
 
   return {
     statusCode: 200,
@@ -24,7 +25,7 @@ export async function producer() {
 
 export async function consumer(event: SQSEvent) {
   const records: any[] = event.Records;
-  console.info(`Message processed: "${records[0].body}"`);
+  console.log(`Message processed: "${records[0].body}"`);
 
   return {};
 }
